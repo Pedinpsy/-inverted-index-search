@@ -13,4 +13,4 @@ hashing.insertValue('carvalho',50)
 
 print(hashing.getValue('pedro'))
 print(hashing.getValue('pedra'))
-print(hashing.getValue('carvalho'))
+print(hashing.getValue('ajoao'))
