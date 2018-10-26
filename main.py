@@ -3,7 +3,7 @@ import sys
 
 
 
-hashing = hash(1000000,4)	
+hashing = hash(1000000,4,'multiplication')	
 
 hashing.insertValue('pedro',10)
 hashing.insertValue('pedro',20)

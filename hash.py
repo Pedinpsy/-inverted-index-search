@@ -10,16 +10,23 @@ class content:
 
 class hash:
 
-	def __init__(self,size,limit, method="division"):
+	def __init__(self,size,limit, hashMethod="division",colisionMethod = 'linear'):
 		self.array = [None] * size
 		self.size = size
 		self.limit = limit
 		self.count = 0
-		if method == 'multiplication':
+		#design pattern : Strategy
+		if hashMethod == 'multiplication':
 			self.hash = self.getValueMultiplication
 		else:
 			self.hash = self.getValueDivision
+		#design pattern : Strategy
+		if (colisionMethod == 'quadratic'):
+			self.colision = getQuadraticValue
+		else:
+			self.colision = self.getLinearValue
 
+		
 	def getArray(self):
 		return self.array
 
@@ -27,14 +34,20 @@ class hash:
 		if(len(key)< self.limit):
 			return False
 		count = 0
+		#get hash code of key
+		numericKey = self.hash(key)
 		while(True):
-			numericKey = self.hash(key,count)
 			print(numericKey)
 			obg = content(key,value)
+			# has colision
 			if(self.array[numericKey]!= None):
 				if(self.array[numericKey].key != key):
+					#colision function
+					numericKey = self.colision(numericKey,count)
 					count = count + 1
+
 				else:
+					# if he key already have a value 
 					self.array[numericKey].value.append(value)
 					break
 					
@@ -51,33 +64,38 @@ class hash:
 		if(len(key)<self.limit):
 			return None
 		count = 0
-		if(self.array[self.hash(key,count)] == None):
+		numericKey = self.hash(key)
+		if(self.array[numericKey] is None):
 			return None
 		while(True):
-
-
-			if(self.array[self.hash(key,count)].key == key):
-				return self.array[self.hash(key,count)].value
+			if(self.array[numericKey] is None):
+				return None
+			if(self.array[numericKey].key == key):
+				return self.array[numericKey].value
 			else:
-				count = count+1
+				numericKey = self.colision(numericKey, count)
+				count = (count+1)%self.size
 		return None
 
-	def getValueDivision(self,key,adictionator):
+	def getValueDivision(self,key):
 		numericKey = 0
 		for x in range(0,self.limit):
 			numericKey = numericKey + int(ord(key[x]))
-		numericKey = int(numericKey+adictionator%len(self.array))
+		numericKey = int(numericKeyr%len(self.array))
 		return numericKey
 
-	def getValueMultiplication(self, key, adictionator):
-		adictionator = adictionator+1
+	def getValueMultiplication(self, key):
 		a = (math.sqrt(5)-1)/2
 		numericKey = 0
 		for x in range(0,self.limit):
 			numericKey = numericKey + int(ord(key[x]))
 
-		numericKey = math.floor(adictionator*((a*numericKey)%1))
+		numericKey = math.floor(math.pow(2,2)*((a*numericKey)%1))
 		return numericKey
+
+	def getLinearValue(self,key,adictionator):
+		return key+adictionator
+
 
 
 
