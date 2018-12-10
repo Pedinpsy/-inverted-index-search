@@ -37,7 +37,7 @@ class hash:
 		#get hash code of key
 		numericKey = self.hash(key)
 		while(True):
-			print(numericKey)
+
 			obg = content(key,value)
 			# has colision
 			if(self.array[numericKey]!= None):
