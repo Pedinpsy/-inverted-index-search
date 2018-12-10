@@ -22,7 +22,7 @@ class hash:
 			self.hash = self.getValueDivision
 		#design pattern : Strategy
 		if (colisionMethod == 'quadratic'):
-			self.colision = getQuadraticValue
+			self.colision = self.getQuadraticValue
 		else:
 			self.colision = self.getLinearValue
 
@@ -91,10 +91,13 @@ class hash:
 			numericKey = numericKey + int(ord(key[x]))
 
 		numericKey = math.floor(math.pow(2,2)*((a*numericKey)%1))
-		return numericKey
+		return int(numericKey)
+	def getQuadraticValue(self,key,count):
+		index = (key + count*count) % self.size
+		return index
 
 	def getLinearValue(self,key,adictionator):
-		return key+adictionator
+		return int((key+adictionator)%self.size)
 
 
 
