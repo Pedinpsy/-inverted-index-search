@@ -15,6 +15,7 @@ class hash:
 		self.size = size
 		self.limit = limit
 		self.count = 0
+		self.keys = []
 		#design pattern : Strategy
 		if hashMethod == 'multiplication':
 			self.hash = self.getValueMultiplication
@@ -30,12 +31,18 @@ class hash:
 	def getArray(self):
 		return self.array
 
+	def getKeys(self):
+		return self.keys
+
 	def insertValue(self,key,value):
+	
 		if(len(key)< self.limit):
 			return False
 		count = 0
 		#get hash code of key
 		numericKey = self.hash(key)
+		if key not in self.keys:
+			self.keys.append(key)
 		while(True):
 
 			obg = content(key,value)
@@ -81,7 +88,7 @@ class hash:
 		numericKey = 0
 		for x in range(0,self.limit):
 			numericKey = numericKey + int(ord(key[x]))
-		numericKey = int(numericKeyr%len(self.array))
+		numericKey = int(numericKey%len(self.array))
 		return numericKey
 
 	def getValueMultiplication(self, key):
